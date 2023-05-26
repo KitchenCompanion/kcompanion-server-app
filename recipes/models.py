@@ -34,6 +34,9 @@ class Recipe(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now = True)
     rating = models.DecimalField(max_digits=5, decimal_places=1)
+    category = models.CharField(max_length=45)
+    level = models.CharField(max_length=45)
+    prep_time = models.IntegerField()
     
 
     def __str__(self):
