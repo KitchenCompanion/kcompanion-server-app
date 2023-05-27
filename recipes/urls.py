@@ -9,10 +9,11 @@ router = DefaultRouter()
 
 # router.register('User', views.UserView)
 router.register('review', views.ReviewView)
-router.register('recipe', views.recipe_list)
+# router.register('recipe', views.recipe_list)
 
 urlpatterns =  [
     # path('recipe/', views.recipe_list),
+    path('recipe/', views.RecipeCreateView.as_view(), name='recipe'),
     path('recipe/<int:id>', views.recipe_detail, name='recipe'),
     path('signup/', views.UserCreateView.as_view(), name='signup'), 
     path('login/', views.UserLoginApiView.as_view(), name='login'),

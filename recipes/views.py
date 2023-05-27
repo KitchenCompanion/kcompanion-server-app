@@ -29,6 +29,24 @@ class UserCreateView(generics.CreateAPIView):
 class UserLoginApiView(ObtainAuthToken):
     serializer_class = AuthTokenSerializer
     renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES #Allow for rendering in deifferent formats; JSON< XML...
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            token, _ = Token.objects.get_or_create(user=user)
+            user_id = user.id
+
+            data = {
+                'token': token.key,
+                'user_id': user_id,
+            }
+
+            response.data = data
+
+        return response
     
 
 # Logout View
@@ -49,6 +67,17 @@ class ReviewView(ModelViewSet):
 class recipe_list(ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+
+class RecipeCreateView(APIView):
+    def post(self, request):
+        recipe = request.data
+        recipe['author'] = request.user.id # Set the author to the authenticated user
+        serializer = RecipeSerializer(data=recipe)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 # @api_view(['GET', 'POST'])
 # def recipe_list(request):
 

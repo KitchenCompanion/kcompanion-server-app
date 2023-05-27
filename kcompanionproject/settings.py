@@ -44,6 +44,19 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+# REST_FRAMEWORK ={
+#         'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+
+#     ], 
+# }
+
+
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -53,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'recipes.middleware.TokenAuthMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
@@ -138,3 +152,20 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'recipes.User'
+
+
+# CSRF_TRUSTED_ORIGINS = ['https://', 'https://']
+# # ALLOWED_ORIGINS = ['http://*', 'https://*']
+
+
+# ALLOWED_HOSTS = ['http://127.0.0.1',  'https://']
+
+# # Whether to use a secure cookie for the CSRF cookie
+# # https://docs.djangoproject.com/en/3.2/ref/settings/#csrf-cookie-secure
+# CSRF_COOKIE_SECURE = True
+
+# # The value of the SameSite flag on the CSRF cookie
+# # https://docs.djangoproject.com/en/3.2/ref/settings/#csrf-cookie-samesite
+# CSRF_COOKIE_SAMESITE = 'Strict'
+
+# CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS.copy()

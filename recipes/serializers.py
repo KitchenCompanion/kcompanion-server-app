@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from .models import *
+from rest_framework.authtoken.models import Token
 
 User = get_user_model()
 
@@ -46,6 +47,10 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class AuthTokenSerializer(serializers.Serializer):
+
+    class Meta:
+        model = User
+
     email = serializers.CharField()
     password = serializers.CharField(
         style={'input_type': 'password'},
@@ -60,12 +65,13 @@ class AuthTokenSerializer(serializers.Serializer):
             user = authenticate(
                 request=self.context.get('request'),
                 email=email,
-                password=password
+                password=password,
             )
 
             if not user:
                 msg = ('Unable to authenticate with provided credentials')
                 raise serializers.ValidationError(msg, code='authentication')
+
         else:
             msg = ('Must include "email" and "password".')
             raise serializers.ValidationError(msg, code='authorization')
@@ -84,6 +90,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = '__all__'
+
+        
 
 
 class ReviewSerializer(serializers.ModelSerializer):
